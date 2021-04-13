@@ -1,0 +1,106 @@
+// ENSIMMÄISENÄ MÄÄRITELLÄÄN PALVELIMELLE TARVITTAVAT PORTIT SEKÄ MODUULIT.
+// TÄSSÄ ESIMERKISSÄ KÄYTETÄÄN MYÖSKIN EJS-TEMPLATEJA, JOTEN SE OTETAAN MYÖSKIN KÄYTTÖÖN
+
+// Määritellään palvelimelle portti.
+const PORT = process.env.PORT || 8080;
+
+// Otetaan moduuleja käyttöön.
+var express = require("express");
+var app = express();
+
+// otetaan EJS käyttöön
+app.set("view engine", "ejs");
+
+// Tällä pakotetaan sivupohja tuottamaan sisennettyä, kaunista HTML:ää. 
+app.locals.pretty = true;
+
+
+
+// SEURAAVAKSI OHJEISTETAN LUOMAAN TEMPLATE-SIVUT. SELKEYDEN VUOKSI KÄYTÄN JA OPETAN KÄYTTÄMÄÄN TEKEMÄÄN SIVUSTOT ERILLISEEN PAGES-KANSIOON.
+//TÄMÄ HELPOTTAA SIVUJEN HALLINNOINTIA JA TARKASTELUA MYÖHEMMISSÄ VAIHEISSA.
+
+// Luodaan sivu. Res.render()-funktio lähettää sivut template-moottorille ennen niiden päätymistä loppukäyttäjälle selaimeen. (Alla olevaa sivunluontikoodia monistetaan tarvittava määrä)
+app.get("/", function (req, res) {
+  res.render("TÄHÄN TULEE TARVITTAESSA KANSIO SEKÄ SIVUN NIMI TAI SIVUN NIMI");
+});
+
+
+//LOPUKSI LUODAAN PALVELIN, JONKA JÄLKEEN PALVELIN PALAUTTAA KONSOLIIN TIEDON "KUUNTELUSTA" SEKÄ PORTISTA
+// Luodaan web-palvelin.
+app.listen(PORT, () => {
+//Alla olevassa tilanteessa on kirjattu, että portti 8080 on käytössä.(Tämä alla oleva konsoliteksti pitää muokata itse, eli se ei päivity automaattisesti.)
+  console.log("Example app listening on port 8080!");
+  
+  //----------------------------------------------------------------------------------------------------------------
+  
+  // TÄSSÄ ALLA KÄYDÄÄN LÄPI NE TIEDOT, JOTKA LISÄTÄÄN ESIMERKIKSI HEAD-TEMPLATEEN.
+// NÄMÄ SIVUSTON RAKENNETEMPLATET SUOSITTELEN NIMEÄMÄÄN SITEN, ETTÄ NIIDEN SIJAINNIT ON MAHDOLLISTA TUNNISTAA TIEDOSTON NIMEN PERUSTEELLA.
+// ALLA OLEN LUETELLUT NIITÄ ASIOITA MITÄ TÄNNE KUULUU
+
+<meta charset="UTF-8" />
+
+<title>Sivuston otskko</title>
+
+// Sivuston ulkonäköön vaikuttavat CSS-kehykset eli bootstrapit
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+
+// Sivuston kuvaukseen vaikuttavat tiedot
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+// Jos sivustolla käytetää javascriptiä niin ne koodit tulevat tähän alle.
+// Mahdollisesto myöskin käytössä olevat jquery -linkit tulevat myöskin tähän.
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style>
+// Tähän kohtaan tulee sivuston tyyliin liittyvät määritykset
+</style>
+
+
+//-----------------------------------------------------------------------------------
+
+// TÄSSÄ NEUVON MITEN TOTEUTETAAN API-PYYNTÖ JA TUODAAN SIINÄ LUOTU TAULUKKO SIVUSTOLLE.
+
+<div class="info">
+  <br />
+  <h1>TÄHÄN TULEE H1-TASON TEKSIT</h1>
+  <br />
+</div>
+<div id="POISTA TÄMÄ TEKSTI JA LISÄÄ TÄHÄN PAIKAN ID"></div>
+<p>TÄMÄN JÄLKEEN VOIDAAN JATKAA LISÄÄ TEKSTIÄ JA MUUTA SISÄLTÖÄ</p>
+
+
+// TÄSSÄ ALLA NEUVON YHDEN MAHDOLLISUUDEN SIIHEN MITEN TOTEUTETAAN API-PYYNTÖ JQUERYLLÄ
+
+<script>
+  // Tallennetaan API:n url muuttujaan.
+  var url = "POISTA TÄMÄ JA KIRJOITA TÄHÄN APIN OSOITE";
+  // Suoritetaan AJAX pyyntö ja lisätään funktio: Kun saadaan vastaus pyyntöön...
+  $.get(url, function (data) {
+    // Luodaan out muuttuja johon tallennetaan html table tägi ja taulukon sarakkeiden otsikot.
+    var out =
+      "<table class='table table-hover'>"POISTA TÄMÄ!! TÄSSÄ MÄÄRITELLÄÄN TAULUKKO, SARAKKEIDEN MÄÄRÄ SEKÄ OTSIKOT SARAKKEISIIN";
+
+
+// SEURAAVAKSI ALETAAN KÄYMÄÄN DATAA LÄPI TUODEN SIITÄ HALUTUT TIEDOT TAULUKKOON, JONKA JÄLKEEN HAETTU DATA NÄKYY TAULUKOSSA
+
+    // For loopilla käydään objekti läpi sen koko pituudelta.
+    for (i = 0; i < data.results.length; i++) {
+      
+	  // Joka kierroksella lisätään muuttujaan tr tägi jolla aloitetaan rivi.
+      out += "<tr>";
+     
+	 // Joka kierroksella lisätään muuttujaan td tägi jolla tehdään solu. Haetaan objektista haluttu data.
+      out += "<td>" + data.results[i].POISTA TÄMÄ TEKSTI SEKÄ LISÄÄ TÄHÄN SE TIETO MITÄ HALUAT TUODA TAULUKKOON + "</td>";
+
+      // Joka kierroksella lisätään muuttujaan tr tägi jolla suljetaan rivi.
+      out += "</tr>";
+    }
+    
+	// Suljetaan table elementti html table tÄGILLÄ.
+    out += "</table>";
+		
+		
+    // Vaihdetaan place -elementin html sisällöksi out -muuttuja, jossa on APIsta haettu data taulukossa.
+    $("POISTA TÄMÄ TEKSTI JA LISÄÄ TÄHÄN SE PAIKAN ID JOHON TAULUKKO LISÄTÄÄN").html(out);
+  });
+</script>
